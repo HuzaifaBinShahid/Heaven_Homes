@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 
 // Animation variants for consistent animations across the site
@@ -47,8 +48,19 @@ export const staggerItem = {
   transition: { duration: 0.5, ease: "easeOut" }
 };
 
+// Types for animated components
+interface AnimatedProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}
+
+interface AnimatedLinkProps extends AnimatedProps {
+  href: string;
+}
+
 // Reusable animated components
-export const AnimatedSection = ({ children, className = "", delay = 0 }) => (
+export const AnimatedSection: React.FC<AnimatedProps> = ({ children, className = "", delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 50 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -60,7 +72,7 @@ export const AnimatedSection = ({ children, className = "", delay = 0 }) => (
   </motion.div>
 );
 
-export const AnimatedCard = ({ children, className = "", delay = 0 }) => (
+export const AnimatedCard: React.FC<AnimatedProps> = ({ children, className = "", delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 30, scale: 0.95 }}
     whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -73,7 +85,7 @@ export const AnimatedCard = ({ children, className = "", delay = 0 }) => (
   </motion.div>
 );
 
-export const AnimatedImage = ({ children, className = "", delay = 0 }) => (
+export const AnimatedImage: React.FC<AnimatedProps> = ({ children, className = "", delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, scale: 1.1 }}
     whileInView={{ opacity: 1, scale: 1 }}
@@ -85,7 +97,7 @@ export const AnimatedImage = ({ children, className = "", delay = 0 }) => (
   </motion.div>
 );
 
-export const AnimatedText = ({ children, className = "", delay = 0 }) => (
+export const AnimatedText: React.FC<AnimatedProps> = ({ children, className = "", delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +109,7 @@ export const AnimatedText = ({ children, className = "", delay = 0 }) => (
   </motion.div>
 );
 
-export const AnimatedButton = ({ children, className = "", delay = 0 }) => (
+export const AnimatedButton: React.FC<AnimatedProps> = ({ children, className = "", delay = 0 }) => (
   <motion.button
     initial={{ opacity: 0, scale: 0.9 }}
     whileInView={{ opacity: 1, scale: 1 }}
@@ -111,7 +123,7 @@ export const AnimatedButton = ({ children, className = "", delay = 0 }) => (
   </motion.button>
 );
 
-export const AnimatedLink = ({ children, className = "", delay = 0, href }) => (
+export const AnimatedLink: React.FC<AnimatedLinkProps> = ({ children, className = "", delay = 0, href }) => (
   <motion.a
     href={href}
     initial={{ opacity: 0, scale: 0.9 }}
