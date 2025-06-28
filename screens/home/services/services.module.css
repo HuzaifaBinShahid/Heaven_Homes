@@ -1,0 +1,38 @@
+.title {
+    text-transform: uppercase;
+}
+
+.services {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.service {
+    display: grid;
+    gap: 16px;
+}
+
+.service_subtitle {
+    color: var(--slate-500);
+}
+
+@media (max-width: 1024px) {
+    .services {
+        margin-top: 64px;
+    }
+}
+
+@media (max-width: 768px) {
+    .services {
+        margin-top: 48px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .services {
+        grid-template-columns: 1fr;
+    }
+}

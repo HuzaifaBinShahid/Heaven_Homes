@@ -1,0 +1,44 @@
+.container {
+    position: relative;
+}
+
+.icon svg {
+    stroke: var(--black);
+}
+
+.chevronIcon svg {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    stroke: var(--black);
+    transition: all 0.2s;
+    z-index: 1;
+}
+
+.select {
+    appearance: none;
+    background-color: var(--slate-100);
+    border: 1.5px solid var(--slate-200);
+    color: var(--black);
+    width: 100%;
+    min-width: 320px;
+    height: 56px;
+    transition: border-color 0.2s;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.container:focus {
+    border-color: var(--black);
+}
+
+.container:hover {
+    border-color: var(--black);
+}
+
+@media (max-width: 480px) {
+    .select {
+        min-width: 100%;
+    }
+}
