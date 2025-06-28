@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import styles from "./footer.module.css";
 import cn from "classnames";
@@ -5,6 +7,8 @@ import Logo from "../logo";
 import { Heading } from "../typography";
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Youtube } from "@/constants/icons";
+import { motion } from "framer-motion";
+import { AnimatedText, staggerContainer, staggerItem } from "@/components/animations";
 
 const links = [
   {
@@ -85,63 +89,122 @@ export default function Footer() {
   return (
     <footer className={cn("section", styles.section)}>
       <div className={cn("container", styles.container)}>
-        <div className={styles.content}>
-          <Logo />
+        <motion.div 
+          className={styles.content}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Logo />
+          </motion.div>
 
           <div>
-            <Heading type="heading-3" className={styles.title}>
-              Building Dreams, One Home at a Time.
-            </Heading>
-            <div className={cn("subheading-small", styles.email)}>
-              HEAVENHOMES@INFO.COM
-            </div>
+            <AnimatedText delay={0.1}>
+              <Heading type="heading-3" className={styles.title}>
+                Building Dreams, One Home at a Time.
+              </Heading>
+            </AnimatedText>
+            <AnimatedText delay={0.2}>
+              <div className={cn("subheading-small", styles.email)}>
+                HEAVENHOMES@INFO.COM
+              </div>
+            </AnimatedText>
           </div>
-        </div>
+        </motion.div>
 
-        <div className={styles.divider} />
+        <motion.div 
+          className={styles.divider}
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        />
 
-        <div className={styles.content}>
+        <motion.div 
+          className={styles.content}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <div className={styles.business_info}>
             <div>
-              <div className={cn("paragraph-small", styles.address)}>
-                123 Main Street, Hometown, USA
-              </div>
-              <div className={cn("paragraph-small", styles.phone)}>
-                (123) 456-7890
-              </div>
+              <AnimatedText delay={0.5}>
+                <div className={cn("paragraph-small", styles.address)}>
+                  123 Main Street, Hometown, USA
+                </div>
+              </AnimatedText>
+              <AnimatedText delay={0.6}>
+                <div className={cn("paragraph-small", styles.phone)}>
+                  (123) 456-7890
+                </div>
+              </AnimatedText>
             </div>
 
-            <div className={styles.socials}>
-              {socials.map((social) => (
-                <a
+            <motion.div 
+              className={styles.socials}
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              {socials.map((social, index) => (
+                <motion.a
                   key={social.id}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.social}
+                  variants={staggerItem}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  whileHover={{ 
+                    scale: 1.2, 
+                    y: -3,
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.9 }}
                 >
                   {social.icon}
-                </a>
+                </motion.a>
               ))}
-            </div>
+            </motion.div>
 
-            <div className={cn("paragraph-small", styles.copyright)}>
-              © 2024 Elektra. All rights reserved.
-            </div>
+            <AnimatedText delay={0.8}>
+              <div className={cn("paragraph-small", styles.copyright)}>
+                © 2024 Elektra. All rights reserved.
+              </div>
+            </AnimatedText>
           </div>
 
-          <div className={styles.links}>
-            {links.map((link) => (
-              <Link
+          <motion.div 
+            className={styles.links}
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            {links.map((link, index) => (
+              <motion.div
                 key={link.id}
-                href={link.url}
-                className={cn("label-medium", styles.link)}
+                variants={staggerItem}
+                transition={{ delay: 0.9 + index * 0.05 }}
+                whileHover={{ y: -2 }}
               >
-                {link.title}
-              </Link>
+                <Link
+                  href={link.url}
+                  className={cn("label-medium", styles.link)}
+                >
+                  {link.title}
+                </Link>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </footer>
   );

@@ -18,7 +18,10 @@
 
 .title {
     position: absolute;
-    bottom: 80px;
+    bottom: 150px;
+    left: 0;
+    right: 0;
+    width: 100%;
     color: var(--white);
     text-align: center;
 }
@@ -54,6 +57,17 @@
 
 .card_subtitle {
     color: var(--slate-500);
+}
+
+.hero_centered {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
 }
 
 @media (max-width: 1024px) {

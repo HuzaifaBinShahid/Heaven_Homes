@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import styles from "./benefits.module.css";
 import cn from "classnames";
@@ -5,6 +7,8 @@ import { Heading } from "@/components/typography";
 import Image from "next/image";
 import { Checkmark } from "@/constants/icons";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { AnimatedSection, AnimatedImage, AnimatedText, AnimatedLink, staggerContainer, staggerItem } from "@/components/animations";
 
 const benefits = [
   {
@@ -54,38 +58,66 @@ const benefits = [
 export default function Benefits() {
   return (
     <section className={cn("section")}>
-      {benefits.map((benefit) => (
-        <div key={benefit.id} className={cn("container", styles.container)}>
-          <div className={styles.image}>
-            <Image
-              src={benefit.image}
-              alt="Benefits"
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <div className={styles.content}>
-            <Heading type="heading-3">{benefit.title}</Heading>
-            <div className={cn("paragraph-large", styles.subtitle)}>
-              {benefit.description}
+      {benefits.map((benefit, benefitIndex) => (
+        <AnimatedSection key={benefit.id} delay={benefitIndex * 0.2}>
+          <div className={cn("container", styles.container)}>
+            <AnimatedImage delay={0.1} className={styles.image}>
+              <Image
+                src={benefit.image}
+                alt="Benefits"
+                layout="fill"
+                objectFit="cover"
+              />
+            </AnimatedImage>
+            <div className={styles.content}>
+              <AnimatedText delay={0.2}>
+                <Heading type="heading-3">{benefit.title}</Heading>
+              </AnimatedText>
+              <AnimatedText delay={0.3}>
+                <div className={cn("paragraph-large", styles.subtitle)}>
+                  {benefit.description}
+                </div>
+              </AnimatedText>
+
+              <motion.ul 
+                className={styles.list}
+                variants={staggerContainer}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, margin: "-50px" }}
+              >
+                {benefit.items.map((item, index) => (
+                  <motion.li 
+                    key={item.id} 
+                    className={styles.item}
+                    variants={staggerItem}
+                    transition={{ delay: 0.4 + index * 0.1 }}
+                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                  >
+                    <motion.div 
+                      className={styles.icon}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {Checkmark}
+                    </motion.div>
+                    <div className={cn("paragraph-medium", styles.text)}>
+                      {item.title}
+                    </div>
+                  </motion.li>
+                ))}
+              </motion.ul>
+
+              <AnimatedLink 
+                href="/about" 
+                className={cn("button", styles.button)}
+                delay={0.6}
+              >
+                Learn more
+              </AnimatedLink>
             </div>
-
-            <ul className={styles.list}>
-              {benefit.items.map((item) => (
-                <li key={item.id} className={styles.item}>
-                  <div className={styles.icon}>{Checkmark}</div>
-                  <div className={cn("paragraph-medium", styles.text)}>
-                    {item.title}
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <Link href="/about" className={cn("button", styles.button)}>
-              Learn more
-            </Link>
           </div>
-        </div>
+        </AnimatedSection>
       ))}
     </section>
   );

@@ -1,8 +1,11 @@
+"use client";
+
 import cn from "classnames";
 import Image from "next/image";
 import styles from "./property-listing.module.css";
 import Link from "next/link";
 import PropertyFeatures from "../property-features";
+import { motion } from "framer-motion";
 
 type PropertyListingProps = {
   item: {
@@ -22,7 +25,14 @@ type PropertyListingProps = {
 
 export default function PropertyListing({ item }: PropertyListingProps) {
   return (
-    <div key={item.id} className={styles.listing}>
+    <motion.div 
+      key={item.id} 
+      className={styles.listing}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6 }}
+    >
       <Link
         href={{
           pathname: "/property-detail",
@@ -30,19 +40,37 @@ export default function PropertyListing({ item }: PropertyListingProps) {
         }}
         className={styles.img_holder}
       >
-        <Image
-          src={item.images && item.images[0]}
-          alt={item.title}
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-        />
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <Image
+            src={item.images && item.images[0]}
+            alt={item.title}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        </motion.div>
 
-        <div className={cn("paragraph-small", styles.listing_price)}>
+        <motion.div 
+          className={cn("paragraph-small", styles.listing_price)}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
           {item.price}
-        </div>
+        </motion.div>
       </Link>
-      <div className={styles.listing_wrapper}>
+      <motion.div 
+        className={styles.listing_wrapper}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
         <div className={cn("heading-6", styles.listing_title)}>
           {item.title}
         </div>
@@ -54,7 +82,7 @@ export default function PropertyListing({ item }: PropertyListingProps) {
           features={item.features}
           className={styles.features}
         />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
