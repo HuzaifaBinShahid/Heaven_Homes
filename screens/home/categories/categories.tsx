@@ -86,8 +86,9 @@ export default function Categories() {
             <motion.div 
               key={category.id} 
               className={styles.category}
-              variants={staggerItem}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
             >
               <motion.div 
                 className={styles.image_container}

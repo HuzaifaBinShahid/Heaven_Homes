@@ -53,8 +53,9 @@ export default function Team() {
           {TeamMembers.slice(0, 3).map((member, index) => (
             <motion.div
               key={member.id}
-              variants={staggerItem}
-              transition={{ delay: index * 0.2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2, ease: "easeOut" }}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
               <TeamMember member={member} />

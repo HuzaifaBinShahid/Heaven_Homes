@@ -90,8 +90,9 @@ export default function Benefits() {
                   <motion.li 
                     key={item.id} 
                     className={styles.item}
-                    variants={staggerItem}
-                    transition={{ delay: 0.4 + index * 0.1 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1, ease: "easeOut" }}
                     whileHover={{ x: 5, transition: { duration: 0.2 } }}
                   >
                     <motion.div 
