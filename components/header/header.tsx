@@ -57,17 +57,35 @@ export default function Header() {
   }, []);
 
   const navVariants = {
-    hidden: { clipPath: "inset(0% 0% 100% 0%)" },
+    hidden: { 
+      clipPath: "inset(0% 0% 100% 0%)",
+      opacity: 0
+    },
     visible: {
       clipPath: "inset(0% 0% 0% 0%)",
+      opacity: 1,
       transition: {
         type: "spring",
         stiffness: 50,
         damping: 25,
         mass: 2,
         delay: 0.2,
+        staggerChildren: 0.1,
+        delayChildren: 0.3
       },
     },
+  };
+
+  const navLinkVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
   };
 
   const handleScrollSection = (
@@ -93,20 +111,28 @@ export default function Header() {
   const isBlackHeader = blackHeaderPages.includes(pathname);
 
   return (
-    <header
+    <motion.header
       className={cn(styles.header, {
         [styles.sticky]: sticky,
         [styles.border_header]: isBlackHeader,
       })}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className={cn("container", styles.container)}>
-        <Logo
-          className={cn(styles.logo, {
-            [styles.black_logo]:
-              (isBlackHeader && !(mobile && visibleNav)) || sticky,
-            [styles.sticky_logo]: sticky,
-          })}
-        />
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Logo
+            className={cn(styles.logo, {
+              [styles.black_logo]:
+                (isBlackHeader && !(mobile && visibleNav)) || sticky,
+              [styles.sticky_logo]: sticky,
+            })}
+          />
+        </motion.div>
 
         <motion.nav
           className={cn(styles.nav, {
@@ -118,31 +144,43 @@ export default function Header() {
         >
           <div className={styles.nav_links}>
             {nav_links.map((link, index) => (
-              <Link
+              <motion.div
                 key={index}
-                href={link.href}
-                className={cn("label-small", styles.nav_link, {
-                  [styles.active]: pathname === link.href,
-                  [styles.black_link]: isBlackHeader && !(mobile && visibleNav),
-                  [styles.sticky_link]: sticky,
-                })}
+                variants={mobile ? navLinkVariants : {}}
+                whileHover={{ y: -2 }}
+                transition={{ duration: 0.2 }}
               >
-                {link.title}
-              </Link>
+                <Link
+                  href={link.href}
+                  className={cn("label-small", styles.nav_link, {
+                    [styles.active]: pathname === link.href,
+                    [styles.black_link]: isBlackHeader && !(mobile && visibleNav),
+                    [styles.sticky_link]: sticky,
+                  })}
+                >
+                  {link.title}
+                </Link>
+              </motion.div>
             ))}
           </div>
         </motion.nav>
 
         <div className={styles.button_wrapper}>
-          <Link
-            href="/contact"
-            className={cn("button-stroke-small", styles.button, {
-              [styles.black_button]: isBlackHeader && !(mobile && visibleNav),
-              [styles.sticky_button]: sticky,
-            })}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
-            Get In Touch
-          </Link>
+            <Link
+              href="/contact"
+              className={cn("button-stroke-small", styles.button, {
+                [styles.black_button]: isBlackHeader && !(mobile && visibleNav),
+                [styles.sticky_button]: sticky,
+              })}
+            >
+              Get In Touch
+            </Link>
+          </motion.div>
 
           <Burger
             className={styles.burger}
@@ -155,6 +193,6 @@ export default function Header() {
           />
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

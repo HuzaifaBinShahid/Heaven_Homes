@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import styles from "./services.module.css";
 import cn from "classnames";
@@ -9,6 +11,8 @@ import {
   House,
   TrendUp,
 } from "@/constants/icons";
+import { motion } from "framer-motion";
+import { AnimatedText, staggerContainer, staggerItem } from "@/components/animations";
 
 const services = [
   {
@@ -59,21 +63,48 @@ export default function Services() {
   return (
     <section className={cn("section")}>
       <div className={cn("container")}>
-        <div className={cn("subheading-small", styles.title)}>Our services</div>
+        <AnimatedText delay={0.1}>
+          <div className={cn("subheading-small", styles.title)}>Our services</div>
+        </AnimatedText>
 
-        <div className={styles.services}>
-          {services.map((service) => (
-            <div key={service.id} className={styles.service}>
-              <div className={cn("gradient-bubble")}>{service.icon}</div>
+        <motion.div 
+          className={styles.services}
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {services.map((service, index) => (
+            <motion.div 
+              key={service.id} 
+              className={styles.service}
+              variants={staggerItem}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ 
+                y: -8, 
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
+            >
+              <motion.div 
+                className={cn("gradient-bubble")}
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: 5,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                {service.icon}
+              </motion.div>
               <div className={cn("heading-6", styles.service_title)}>
                 {service.title}
               </div>
               <div className={cn("paragraph-medium", styles.service_subtitle)}>
                 {service.description}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

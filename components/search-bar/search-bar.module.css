@@ -1,9 +1,9 @@
 .search_bar {
-    position: absolute;
+    /* position: absolute; */
     z-index: 1;
-    bottom: -44px;
-    left: 50%;
-    transform: translateX(-50%);
+    /* bottom: -44px; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
     background-color: var(--white);
     padding: 0 16px 0 24px;
     border-radius: 24px;

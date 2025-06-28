@@ -4,73 +4,66 @@ import React from "react";
 import cn from "classnames";
 import styles from "./latest-listings.module.css";
 import { Heading } from "@/components/typography";
-import { Listings, Tabs } from "@/constants/mock";
-import { Dropdown } from "@/components/elements";
+import { Listings } from "@/constants/mock";
 import PropertyListing from "@/components/property-listing";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { AnimatedText, AnimatedLink, staggerContainer, staggerItem } from "@/components/animations";
 
 export default function LatestListings() {
-  const [selectedCategory, setSelectedCategory] = React.useState(Tabs[0].name);
-
-  const dropdownOptions = Tabs.map((tab) => ({
-    value: tab.name,
-    label: tab.name,
-  }));
-
-  const handleDropdownChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-  };
+  // Flatten all listings from all categories
+  const allListings = Listings.flatMap((listing) => listing.items);
 
   return (
-    <section className={cn("section")}>
-      <div className={cn("container")}>
-        <div className={styles.content}>
+    <section className={cn("section")}> 
+      <div className={cn("container")}> 
+        <motion.div 
+          className={styles.content}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+        >
           <div>
-            <Heading type="heading-3" className={styles.title}>
-              Latest Property Listings
-            </Heading>
-            <div className={cn("paragraph-large", styles.subtitle)}>
-              Discover the newest additions to our exclusive real estate
-              portfolio.
-            </div>
-          </div>
-
-          <Link href="/listings" className={cn("button", styles.button)}>
-            View All Listings
-          </Link>
-        </div>
-
-        <div className={styles.wrapper}>
-          <Dropdown
-            className={styles.dropdown}
-            options={dropdownOptions}
-            value={selectedCategory}
-            onChange={handleDropdownChange}
-          />
-          <div className={styles.tabs}>
-            {Tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={cn("label-medium", styles.tab, {
-                  [styles.active]: tab.name === selectedCategory,
-                })}
-                onClick={() => setSelectedCategory(tab.name)}
-              >
-                {tab.name}
+            <AnimatedText delay={0.1}>
+              <Heading type="heading-3" className={styles.title}>
+                Latest Property Listings
+              </Heading>
+            </AnimatedText>
+            <AnimatedText delay={0.2}>
+              <div className={cn("paragraph-large", styles.subtitle)}>
+                Discover the newest additions to our exclusive real estate
+                portfolio.
               </div>
-            ))}
+            </AnimatedText>
           </div>
 
-          <div className={styles.listings}>
-            {Listings.filter(
-              (listing) => listing.category === selectedCategory,
-            ).flatMap((listing) =>
-              listing.items.map((item) => (
-                <PropertyListing key={item.id} item={item} />
-              )),
-            )}
-          </div>
-        </div>
+          <AnimatedLink 
+            href="/listings" 
+            className={cn("button", styles.button)}
+            delay={0.3}
+          >
+            View All Listings
+          </AnimatedLink>
+        </motion.div>
+
+        <motion.div 
+          className={styles.listings}
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-50px" }}
+        >
+          {allListings.map((item, index) => (
+            <motion.div
+              key={item.id}
+              variants={staggerItem}
+              transition={{ delay: index * 0.1 }}
+            >
+              <PropertyListing item={item} />
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

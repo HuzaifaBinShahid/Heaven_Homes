@@ -1,6 +1,3 @@
-import React from "react";
-import styles from "./mapview.module.css";
-import cn from "classnames";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const mapContainerStyle = {
@@ -13,10 +10,11 @@ const center = {
   lng: -122.4194,
 };
 export default function MapView() {
+  const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   return (
     <>
       {/* API key only works on this website, if you want to use it on your own website, you need to get your own API key from Google Cloud Platform. */}
-      <LoadScript googleMapsApiKey="AIzaSyDQseUyUqI_D7qkfl-RmsmufqWwmAWEFdc">
+      <LoadScript googleMapsApiKey={googleMapsApiKey || ""}>
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           center={center}
