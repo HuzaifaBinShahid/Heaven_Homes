@@ -160,8 +160,9 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.social}
-                  variants={staggerItem}
-                  transition={{ delay: 0.7 + index * 0.1 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 + index * 0.1, ease: "easeOut" }}
                   whileHover={{ 
                     scale: 1.2, 
                     y: -3,
@@ -191,8 +192,9 @@ export default function Footer() {
             {links.map((link, index) => (
               <motion.div
                 key={link.id}
-                variants={staggerItem}
-                transition={{ delay: 0.9 + index * 0.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.9 + index * 0.05, ease: "easeOut" }}
                 whileHover={{ y: -2 }}
               >
                 <Link
